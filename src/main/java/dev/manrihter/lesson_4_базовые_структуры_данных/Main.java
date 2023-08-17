@@ -7,13 +7,15 @@ import dev.manrihter.lesson_4_базовые_структуры_данных.mod
 
 public class Main {
     public static void main(String[] args) {
+        System.out.print("Single array 10_000:\n");
         BaseArray<String, String> singleArray = new SingleArray<>();
         addAndDelete(singleArray, 10_000);
 
-
+        System.out.print("Vector array 10_000:\n");
         BaseArray<String, String> vectorArray = new VectorArray<>();
         addAndDelete(vectorArray, 10_000);
 
+        System.out.print("Factor array 10_000:\n");
         BaseArray<String, String> factorArray = new FactorArray<>();
         addAndDelete(factorArray, 10_000);
 
