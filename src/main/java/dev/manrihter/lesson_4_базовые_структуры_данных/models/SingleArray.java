@@ -46,7 +46,8 @@ public class SingleArray<K, V> implements BaseArray<K, V> {
 
     @Override
     public V deleteByIndex(int index) {
-        if (index >= size()) return null;
+        if (index >= size())
+            return null;
 
         var value = values[index];
         removeByIndex(index);

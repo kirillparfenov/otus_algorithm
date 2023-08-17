@@ -1,21 +1,18 @@
 package dev.manrihter.lesson_4_базовые_структуры_данных.models;
 
-public class VectorArray<K, V> implements BaseArray<K, V> {
+public class FactorArray<K, V> implements BaseArray<K, V> {
 
-    private int vector;
-    private K[] keys;
-    private V[] values;
-    private int currentIndex;
+    private final int factor;
+    private K[] keys    = (K[]) new Object[0];
+    private V[] values  = (V[]) new Object[0];
+    private int currentIndex = 0;
 
-    public VectorArray(int vector) {
-        this.vector = vector;
-        this.keys   = (K[]) new Object[vector];
-        this.values = (V[]) new Object[vector];
-        currentIndex = 0;
+    public FactorArray() {
+        this(10);
     }
 
-    public VectorArray() {
-        this(10);
+    public FactorArray(int factor) {
+        this.factor = factor;
     }
 
     @Override
@@ -26,19 +23,17 @@ public class VectorArray<K, V> implements BaseArray<K, V> {
     @Override
     public V add(K key, V value) {
         resize();
-
-        keys[currentIndex]   = key;
+        keys[currentIndex] = key;
         values[currentIndex] = value;
         currentIndex++;
-
         return value;
     }
 
     private void resize() {
-        if (size() - 1 != currentIndex) return;
+        if (size() != currentIndex) return;
 
-        var tempKeys = (K[]) new Object[size() + vector];
-        var tempValues = (V[]) new Object[size() + vector];
+        var tempKeys    = (K[]) new Object[size() * factor + 1];
+        var tempValues  = (V[]) new Object[size() * factor + 1];
 
         for (int i = 0; i < size(); i++) {
             tempKeys[i]     = keys[i];
