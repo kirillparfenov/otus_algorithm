@@ -1,0 +1,34 @@
+package dev.manrihter.lesson_4_базовые_структуры_данных;
+
+import dev.manrihter.lesson_4_базовые_структуры_данных.models.BaseArray;
+import dev.manrihter.lesson_4_базовые_структуры_данных.models.SingleArray;
+import dev.manrihter.lesson_4_базовые_структуры_данных.models.VectorArray;
+
+public class Main {
+    public static void main(String[] args) {
+        BaseArray<String, String> singleArray = new SingleArray<>();
+        addAndDelete(singleArray, 10_000);
+
+
+        BaseArray<String, String> vectorArray = new VectorArray<>();
+        addAndDelete(vectorArray, 10_000);
+
+
+    }
+
+    private static void addAndDelete(BaseArray<String, String> array, int total) {
+        //add
+        var startMillis = System.currentTimeMillis();
+        for (int i = 0; i < total; i++) array.add("" + i, "" + i);
+        System.out.println(
+                String.format("Total time for add: %s ms", System.currentTimeMillis() - startMillis)
+        );
+
+        //delete
+        startMillis = System.currentTimeMillis();
+        for (int i = 0; i < total; i++) array.deleteByIndex(i);
+        System.out.println(
+                String.format("Total time for delete: %s ms\n", System.currentTimeMillis() - startMillis)
+        );
+    }
+}
