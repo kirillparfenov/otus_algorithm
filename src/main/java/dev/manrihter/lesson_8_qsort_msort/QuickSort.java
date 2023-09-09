@@ -1,23 +1,26 @@
 package dev.manrihter.lesson_8_qsort_msort;
 
+import java.util.Arrays;
+
 public class QuickSort {
 
     private static int[] arr;
 
     public static void main(String[] args) {
-        int[] array = {5, 3, 7, 9, 1, 2, 4, 8};
+        int[] array = {5, 3, 7, 9, 1, 4, 6};
         quickSort(array);
     }
 
     public static void quickSort(int[] array) {
         arr = array;
-        //указываем начальные границы между готорыми будет сортировка
+        //указываем начальные границы между которыми будет сортировка
         recursiveQSort(0, arr.length - 1);
     }
 
     private static void recursiveQSort(int from, int to) {
         //выход из рекурсии
-        if (from >= to) return;
+        if (from >= to)
+            return;
 
         //найти середину между левой и правой частью
         //слева - значения меньше pivot. справа - больше pivot
