@@ -35,7 +35,7 @@ public class HeapSort {
 
     public static void heapSort(int[] arr) {
         array = arr;
-        // шаг 1: построить кучу, чтобы в нулевой позиции всегда был max число
+        // шаг 1: построить кучу, чтобы в нулевой позиции всегда было max число
         int lastParent = (array.length - 1 - 1) / 2;
         for (int i = lastParent; i >= 0; i--)
             heapify(i, array.length);
