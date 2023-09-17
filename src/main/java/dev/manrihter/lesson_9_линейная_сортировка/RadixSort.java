@@ -9,10 +9,13 @@ public class RadixSort {
     }
 
     public static void radixSort(int[] array) {
-        //найти максимальное количество разрядов
-        int maxNumberLength = 0;
+        //найти максимальное число
+        int maxValue = Integer.MIN_VALUE;
         for (int v : array)
-            maxNumberLength = Math.max(("" + v).length(), maxNumberLength);
+            maxValue = Math.max(v, maxValue);
+
+        //посчитать разрядность
+        int maxNumberLength = (int)Math.log10(maxValue) + 1;
 
         //подсчет для каждой цифры
         int[] numbers = new int[10];
