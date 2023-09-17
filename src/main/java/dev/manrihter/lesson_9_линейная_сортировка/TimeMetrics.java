@@ -1,15 +1,12 @@
 package dev.manrihter.lesson_9_линейная_сортировка;
 
-import dev.manrihter.lesson_8_qsort_msort.MergeSort;
-import dev.manrihter.lesson_8_qsort_msort.QuickSort;
-
 import java.util.Random;
 import java.util.function.Consumer;
 
 public class TimeMetrics {
     public static void main(String[] args) {
         int n = 100;
-        while (n <= 100_000_000) {
+        while (n <= 1_000_000) {
             var array = randomPositiveArray(n);
             timeTracker(BucketSort::bucketSort, array, "BucketSort");
 
@@ -25,7 +22,7 @@ public class TimeMetrics {
         var random = new Random(43231);
         int[] array = new int[n];
         for (int i = 0; i < array.length; i++)
-            array[i] = random.nextInt(1000);
+            array[i] = random.nextInt(999);
         return array;
     }
 
