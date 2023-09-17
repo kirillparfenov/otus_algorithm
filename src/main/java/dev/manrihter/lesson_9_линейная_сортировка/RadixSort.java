@@ -4,8 +4,7 @@ import java.util.Arrays;
 
 public class RadixSort {
     public static void main(String[] args) {
-        System.out.println((152 / 10) % 10);
-        int[] array = {42, 64, 123, 786, 435, 243, 647, 98, 562, 456, 8, 6, 504, 29, 87, 534, 41, 123, 35, 758, 543, 23, 345, 860, 1};
+        int[] array = {42, 64, 123, 786, 435, 243, 647, 98, 562, 456, 8, 6, 504, 29, 85347, 534, 41, 123, 35, 758, 543, 23, 345, 860, 1};
         radixSort(array);
     }
 
