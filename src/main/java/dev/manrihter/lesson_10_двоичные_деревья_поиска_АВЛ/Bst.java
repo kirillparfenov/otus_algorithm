@@ -3,7 +3,13 @@ package dev.manrihter.lesson_10_двоичные_деревья_поиска_А�
 public class Bst {
     public static void main(String[] args) {
         int[] array = {42, 64, 123, 345, 543, 23, 345, 860, 1};
-        bTreeSort(array);
+        int[] result = bTreeSort(array);
+
+        BTree bTree = new BTree();
+        for (int i : array)
+            bTree.add(i);
+        boolean elementNotExists = bTree.search(100);
+        boolean elementExists = bTree.search(543);
     }
 
     //сортировка => рекурсивный обход дерева в глубину слева направо
@@ -50,6 +56,19 @@ public class Bst {
                 n.right = recursiveAdd(n.right, value);
 
             return n;
+        }
+
+        public boolean search(int value) {
+            return recursiveSearch(root, value);
+        }
+
+        //либо найдем искомый элемент, либо упремся в null
+        private boolean recursiveSearch(Node node, int value) {
+            if (node == null) return false;
+            if (node.value == value) return true;
+            return value < node.value ?
+                    recursiveSearch(node.left, value) :
+                    recursiveSearch(node.right, value);
         }
     }
 
