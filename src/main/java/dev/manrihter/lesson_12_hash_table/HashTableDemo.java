@@ -35,7 +35,7 @@ public class HashTableDemo {
         private float loadFactor;
 
         //корзины, в которых хранится ссылка на key-value
-        private HashEntry<K, V>[] buckets;
+        private BucketElement<K, V>[] buckets;
 
         //реальный размер хэш-таблицы
         private int size;
@@ -45,7 +45,7 @@ public class HashTableDemo {
         }
 
         private HashTable(int capacity, float loadFactor) {
-            this.buckets = (HashEntry<K, V>[]) new HashEntry[capacity];
+            this.buckets = (BucketElement<K, V>[]) new BucketElement[capacity];
             this.capacity = capacity;
             this.loadFactor = loadFactor;
             this.threshold = (int) (capacity * loadFactor);
@@ -65,7 +65,7 @@ public class HashTableDemo {
 
             int end = buckets.length;
             for (int i = 0; i < end; i++) {
-                HashEntry<K, V> element = buckets[i];
+                BucketElement<K, V> element = buckets[i];
                 //идем по односвязному списку до тех пор,
                 //пока не найдем элемент или упремся в null
                 while (element != null) {
@@ -79,7 +79,7 @@ public class HashTableDemo {
 
         public V put(K key, V value) {
             int idx = hash(key);
-            HashEntry<K, V> element = buckets[idx];
+            BucketElement<K, V> element = buckets[idx];
 
             //иначе идем по односвязному списку
             while (element != null) {
@@ -98,7 +98,7 @@ public class HashTableDemo {
                 idx = hash(key);
             }
 
-            element = new HashEntry<>(key, value);
+            element = new BucketElement<>(key, value);
             //добавляем в начало
             element.next = buckets[idx];
             buckets[idx] = element;
@@ -115,20 +115,20 @@ public class HashTableDemo {
         }
 
         private void rehash() {
-            HashEntry<K, V>[] oldBuckets = buckets;
+            BucketElement<K, V>[] oldBuckets = buckets;
 
             capacity = (capacity * 2) + 1;
             threshold = (int) (capacity * loadFactor);
-            buckets = (HashEntry<K, V>[]) new HashEntry[capacity];
+            buckets = (BucketElement<K, V>[]) new BucketElement[capacity];
             size = 0;
             //распределяем корзины по новым ключам
             int end = oldBuckets.length;
             for (int i = 0; i < end; i++) {
-                HashEntry<K, V> oldOne = oldBuckets[i];
+                BucketElement<K, V> oldOne = oldBuckets[i];
 
                 while (oldOne != null) {
                     int idx = hash(oldOne.key);
-                    HashEntry<K, V> newOne = buckets[idx];
+                    BucketElement<K, V> newOne = buckets[idx];
 
                     while (newOne != null) {
                         if (newOne.key.equals(oldOne.key)) {
@@ -139,7 +139,7 @@ public class HashTableDemo {
                         newOne = newOne.next;
                     }
 
-                    newOne = new HashEntry<>(oldOne.key, oldOne.value);
+                    newOne = new BucketElement<>(oldOne.key, oldOne.value);
                     newOne.next = buckets[idx];
                     buckets[idx] = newOne;
                     size++;
@@ -151,12 +151,12 @@ public class HashTableDemo {
     }
 
     //корзина, которая хранит в себе key-value
-    public static class HashEntry<K, V> {
-        private HashEntry<K, V> next;
+    public static class BucketElement<K, V> {
+        private BucketElement<K, V> next;
         private K key;
         private V value;
 
-        public HashEntry(K key, V value) {
+        public BucketElement(K key, V value) {
             this.key = key;
             this.value = value;
         }
