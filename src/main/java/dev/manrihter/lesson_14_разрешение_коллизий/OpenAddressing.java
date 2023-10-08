@@ -8,7 +8,10 @@ public class OpenAddressing {
         addressingHashTable.put(42, "42");
         addressingHashTable.put(52, "52");
 
+        //сначала "ленивое удаление" - элемент будет помечен как удаленный
         addressingHashTable.remove(42);
+        //затем произойдет вставка в этот удаленный элемент
+        addressingHashTable.put(42, "42 after delete");
 
         addressingHashTable.put(37, "37");
         addressingHashTable.put(37, "37-new");
@@ -89,14 +92,29 @@ public class OpenAddressing {
             int i = 0;
             int idx = hash(key, i);
             BucketElement<K, V> e = buckets[idx];
+            int removedIndex = -1;
 
             while (e != null) {
                 if (key.equals(e.key)) {
                     buckets[idx].value = value;
                     return value;
+                } else if (e.removed == true) {
+                    removedIndex = idx;
                 }
                 idx = hash(key, ++i);
                 e = buckets[idx];
+            }
+
+            //если на пути вставки встретился удаленный элемент -
+            //вставим туда наши ключ-значение
+            //size при этом останется каким и был
+            if (removedIndex != -1) {
+                BucketElement<K, V> removed = buckets[removedIndex];
+                removed.removed = false;
+                removed.key = key;
+                removed.value = value;
+
+                return removed.value;
             }
 
             e = new BucketElement<>(key, value);
@@ -150,6 +168,10 @@ public class OpenAddressing {
         public BucketElement(K key, V value) {
             this.key = key;
             this.value = value;
+        }
+
+        public BucketElement(boolean removed) {
+            this.removed = removed;
         }
     }
 }
