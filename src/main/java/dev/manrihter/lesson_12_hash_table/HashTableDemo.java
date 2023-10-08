@@ -25,7 +25,7 @@ public class HashTableDemo {
     public static class HashTable<K, V> {
 
         //capacity - начальная емкость хэш-таблицы
-        private static final int DEFAULT_CAPACITY = 10;
+        private static final int DEFAULT_CAPACITY = 11;
         private static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
         // threshold = capacity * loadFactor;
