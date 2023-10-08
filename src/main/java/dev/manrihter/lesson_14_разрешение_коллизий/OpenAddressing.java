@@ -169,9 +169,5 @@ public class OpenAddressing {
             this.key = key;
             this.value = value;
         }
-
-        public BucketElement(boolean removed) {
-            this.removed = removed;
-        }
     }
 }
