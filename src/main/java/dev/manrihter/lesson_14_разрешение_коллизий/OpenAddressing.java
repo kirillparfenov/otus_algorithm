@@ -12,6 +12,7 @@ public class OpenAddressing {
 
         addressingHashTable.put(37, "37");
         addressingHashTable.put(37, "37-new");
+
         addressingHashTable.put(17, "17");
         addressingHashTable.put(87, "87");
         addressingHashTable.put(97, "97");
@@ -32,7 +33,6 @@ public class OpenAddressing {
         private int capacity;
         private float loadFactor;
         private int size;
-
 
         BucketElement<K, V> buckets[];
 
