@@ -22,6 +22,10 @@ public class OpenAddressing {
         System.out.println(addressingHashTable.contains(37));
     }
 
+    /**
+     * Хэш-таблица с открытой адресацией не содержит односвязного списка.
+     * <p>P.S. в данном примере опущены проверки на null
+     * */
     @SuppressWarnings("all")
     public static class HashTable<K, V> {
         //capacity - начальная емкость хэш-таблицы
