@@ -3,15 +3,17 @@ package dev.manrihter.lesson_18_графы_Косарайо;
 import java.util.*;
 
 /**
+ * <pre>
  * Принцип:
  * 1) Делаем инверсию ребер
  * 2) Делаем поиск в глубину и когда выходим из него - выписываем вершины в обратном порядке
  * 3) Инвертирует полученный список вершин
  * 4) Запускаем поиск в глубину на первоначальном графе, но в том порядке вершин, которые получили в пункте 3
  * 5) Как только достигаем тупика в пункте 4 - значит нашли компоненту связности
- *
+ * <p>
  * Пространственная сложность: O(2n) - храню список ребер + инвертированный список ребер
  * Сложность по скорости: O(n^2) - при полносвязном графе
+ * </pre>
  */
 public class Алгоритм_Косарайо {
 
@@ -41,7 +43,9 @@ public class Алгоритм_Косарайо {
         }
     }
 
-    //создаем граф
+    /**
+     * создаем граф
+     */
     public static Edge[] buildGraph() {
         var a = "A";
         var b = "B";
@@ -70,7 +74,9 @@ public class Алгоритм_Косарайо {
         };
     }
 
-    //инвертируем направление ребер - O(N)
+    /**
+     * инвертируем направление ребер - O(N)
+     */
     public static Edge[] invertGraph(final Edge[] graph) {
         int graphLength = graph.length;
         Edge[] invertedGraph = new Edge[graphLength];
@@ -85,11 +91,13 @@ public class Алгоритм_Косарайо {
         return invertedGraph;
     }
 
-    static Set<String> vertexVisited = new HashSet<>();
-    static Stack<String> vertexPath = new Stack<>();
-    static Deque<String> vertexQueue = new ArrayDeque<>();
+    static Set<String> vertexVisited = new HashSet<>(); //посещенные вершины
+    static Stack<String> vertexPath = new Stack<>(); //пройденный путь вглубь от заданной вершины
+    static Deque<String> vertexQueue = new ArrayDeque<>(); //очередь вершин в правильном для алгоритма порядке
 
-    //поиск в глубину - O(n^2)(в полносвязном графе)
+    /**
+     * поиск в глубину - O(n^2)(в полносвязном графе)
+     */
     private static void dfs(Edge[] graph, String vertexFrom) {
         if (vertexVisited.contains(vertexFrom))
             return;
@@ -104,12 +112,14 @@ public class Алгоритм_Косарайо {
             if (graph[i].from.equals(vertexFrom))
                 dfs(graph, graph[i].to);
 
-        //когда закончим - перекладываем все в deque в правильном порядке
+        //когда закончим - перекладываем все в vertexQueue в правильном порядке
         while (!vertexPath.isEmpty())
             vertexQueue.addLast(vertexPath.pop());
     }
 
-    //инвертируем вершины - O(n + m) - без учета dfs
+    /**
+     * инвертируем вершины - O(n + m)(без учета сложности dfs)
+     */
     private static String[] invertVertexes(Edge[] invertedGraph) {
         for (Edge edge : invertedGraph)
             dfs(invertedGraph, edge.from);
@@ -122,7 +132,9 @@ public class Алгоритм_Косарайо {
         return result;
     }
 
-    //ищем и печатаем компоненты связности - O(n) - без учета dfs
+    /**
+     * ищем и печатаем компоненты связности - O(n)(без учета сложности dfs)
+     */
     private static void dfsComponent(String[] invertedVertexes, Edge[] graph) {
         StringBuilder sb = new StringBuilder();
         sb.append("Компоненты связности:").append("\n");
