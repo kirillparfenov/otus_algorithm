@@ -14,7 +14,7 @@ public class Алгоритм_Косарайо {
 
     public static void main(String[] args) {
         //строим граф, который представлен на картинке "Компоненты связности.png", в виде списка ребер
-        Edge[] graph = graph();
+        Edge[] graph = buildGraph();
 
         //1) делаем инверсию ребер, чтобы получился результат, как на картинке "Инвертированные ребра.png"
         Edge[] invertedGraph = invertGraph(graph);
@@ -39,7 +39,7 @@ public class Алгоритм_Косарайо {
     }
 
     //создаем граф
-    public static Edge[] graph() {
+    public static Edge[] buildGraph() {
         var a = "A";
         var b = "B";
         var c = "C";
@@ -82,28 +82,28 @@ public class Алгоритм_Косарайо {
         return invertedGraph;
     }
 
-    static Set<String> visited = new HashSet<>();
-    static Stack<String> stack = new Stack<>();
-    static Deque<String> deque = new ArrayDeque<>();
+    static Set<String> vertexVisited = new HashSet<>();
+    static Stack<String> vertexPath = new Stack<>();
+    static Deque<String> vertexQueue = new ArrayDeque<>();
 
     //поиск в глубину - O(n^2)(в полносвязном графе)
-    private static void dfs(Edge[] graph, String vertex) {
-        if (visited.contains(vertex))
+    private static void dfs(Edge[] graph, String vertexFrom) {
+        if (vertexVisited.contains(vertexFrom))
             return;
 
-        visited.add(vertex);
-        stack.push(vertex);
+        vertexVisited.add(vertexFrom);
+        vertexPath.push(vertexFrom);
 
-        //дальше пробегаемся по массиву - ищем GRAPH.FROM == VERTEX и запускаем рекурсивно dfs для GRAPH.TO
+        //дальше пробегаемся по массиву - ищем GRAPH.FROM == VertexFrom и запускаем рекурсивно DFS(GRAPH, GRAPH.TO),
         //чтобы понять - а можно ли провалиться куда-то дальше вглубь
-        int length = graph().length;
+        int length = buildGraph().length;
         for (int i = 0; i < length; i++)
-            if (graph[i].from.equals(vertex))
+            if (graph[i].from.equals(vertexFrom))
                 dfs(graph, graph[i].to);
 
         //когда закончим - перекладываем все в deque в правильном порядке
-        while (!stack.isEmpty())
-            deque.addLast(stack.pop());
+        while (!vertexPath.isEmpty())
+            vertexQueue.addLast(vertexPath.pop());
     }
 
     //инвертируем вершины - O(n + m) - без учета dfs
@@ -112,9 +112,9 @@ public class Алгоритм_Косарайо {
             dfs(invertedGraph, edge.from);
 
         //теперь нам нужно инвертировать полученную очередь
-        String[] result = new String[deque.size()];
+        String[] result = new String[vertexQueue.size()];
         for (int i = 0; i < result.length; i++)
-            result[i] = deque.pollLast();
+            result[i] = vertexQueue.pollLast();
 
         return result;
     }
@@ -125,12 +125,12 @@ public class Алгоритм_Косарайо {
         sb.append("Компоненты связности:").append("\n");
 
         //обнуляем посещенные вершины
-        visited = new HashSet<>();
+        vertexVisited = new HashSet<>();
         for (String vertex : invertedVertexes) {
             dfs(graph, vertex);
-            while (!deque.isEmpty()) {
-                sb.append(deque.poll());
-                sb.append(deque.isEmpty() ? "\n" : "");
+            while (!vertexQueue.isEmpty()) {
+                sb.append(vertexQueue.poll()); //вытаскиваем и удаляем голову очереди
+                sb.append(vertexQueue.isEmpty() ? "\n" : "");
             }
         }
         //печатаем результат
