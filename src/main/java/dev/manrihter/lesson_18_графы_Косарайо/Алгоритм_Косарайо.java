@@ -109,7 +109,7 @@ public class Алгоритм_Косарайо {
         //чтобы понять - а можно ли провалиться куда-то дальше вглубь
         int length = buildGraph().length;
         for (int i = 0; i < length; i++)
-            if (graph[i].from.equals(vertexFrom))
+            if (graph[i].from.equals(vertexFrom) && !vertexVisited.contains(graph[i].to))
                 dfs(graph, graph[i].to);
 
         //когда закончим - перекладываем все в vertexQueue в правильном порядке
@@ -144,7 +144,7 @@ public class Алгоритм_Косарайо {
         for (String vertex : invertedVertexes) {
             dfs(graph, vertex);
             while (!vertexQueue.isEmpty()) {
-                sb.append(vertexQueue.poll()); //вытаскиваем и удаляем голову очереди
+                sb.append(vertexQueue.pollLast());
                 sb.append(vertexQueue.isEmpty() ? "\n" : "");
             }
         }
