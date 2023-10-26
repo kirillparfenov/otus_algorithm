@@ -96,6 +96,21 @@ public class Алгоритм_Косарайо {
     static Deque<String> vertexQueue = new ArrayDeque<>(); //очередь вершин в правильном для алгоритма порядке
 
     /**
+     * инвертируем вершины - O(n + m)(без учета сложности dfs)
+     */
+    private static String[] invertVertexes(Edge[] invertedGraph) {
+        for (Edge edge : invertedGraph)
+            dfs(invertedGraph, edge.from);
+
+        //теперь нам нужно инвертировать полученную очередь
+        String[] result = new String[vertexQueue.size()];
+        for (int i = 0; i < result.length; i++)
+            result[i] = vertexQueue.pollLast();
+
+        return result;
+    }
+
+    /**
      * поиск в глубину - O(n^2)(в полносвязном графе)
      */
     private static void dfs(Edge[] graph, String vertexFrom) {
@@ -115,21 +130,6 @@ public class Алгоритм_Косарайо {
         //когда закончим - перекладываем все в vertexQueue в правильном порядке
         while (!vertexPath.isEmpty())
             vertexQueue.addLast(vertexPath.pop());
-    }
-
-    /**
-     * инвертируем вершины - O(n + m)(без учета сложности dfs)
-     */
-    private static String[] invertVertexes(Edge[] invertedGraph) {
-        for (Edge edge : invertedGraph)
-            dfs(invertedGraph, edge.from);
-
-        //теперь нам нужно инвертировать полученную очередь
-        String[] result = new String[vertexQueue.size()];
-        for (int i = 0; i < result.length; i++)
-            result[i] = vertexQueue.pollLast();
-
-        return result;
     }
 
     /**
