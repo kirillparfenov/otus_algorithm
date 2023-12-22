@@ -11,7 +11,6 @@ public class AhoCorasik {
                 "ARAB",
                 "BAR",
                 "BASS",
-                "S",
                 "C",
                 "CAR",
                 "RA",
